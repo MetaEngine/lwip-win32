@@ -8,7 +8,6 @@
 #include "lwip/memp.h"
 #include "pcapif.h"
 
-void init_lwip();
 void set_lwip();
 
 extern err_t ethernetif_init(struct netif *netif);
@@ -21,7 +20,6 @@ int main(int argc, char* argv[])
   if (ERR_IF == open_dev())
     exit(1);
 
-  init_lwip();
   set_lwip();
 
   // start for ever
@@ -32,20 +30,12 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-void init_lwip()
-{
-  sys_init();
-  mem_init();
-  memp_init();
-  pbuf_init();
-  tcpip_init(NULL, NULL);
-}
-
 void set_lwip()
 {
   struct ip_addr addr, netmask, gateway;
   static struct netif e_netif;
   
+	tcpip_init(NULL, NULL);
   netif_init();
   
   IP4_ADDR(&addr, 192, 168, 80, 161);

@@ -29,7 +29,7 @@ void sys_init(void)
     mbox_map[i].hFile = NULL;
     mbox_map[i].mbox = NULL;
   }
-  for(i = 0; i < sizeof(lwip_timeouts); i++)
+  for(i = 0; i < sizeof(lwip_timeouts) / sizeof(struct sys_timeouts); i++)
     lwip_timeouts[i].next = NULL;
 }
 
