@@ -114,7 +114,7 @@ void sys_mbox_free(sys_mbox_t mbox)
 /*----------------------------------------------------------------------*/
 void sys_mbox_post(sys_mbox_t mbox, void *msg)
 {
-  sys_mbox_post(mbox, msg); 
+  sys_mbox_trypost(mbox, msg); 
 }
 
 err_t sys_mbox_trypost(sys_mbox_t mbox, void *msg) 
@@ -173,7 +173,7 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t mbox, void **msg, u32_t timeout)
     (LPDWORD) NULL,                 // no maximum message size 
     &cbMessage,                     // size of next message 
     &cMessage,                      // number of messages 
-    (LPWORD)NULL);                          // no read time-out 
+    (LPDWORD)NULL);                 // no read time-out 
   if (!fResult) 
   { 
     fprintf(stderr, "GetMailslotInfo failed with %d.\n", GetLastError()); 
