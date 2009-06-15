@@ -4,15 +4,13 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#pragma   warning(disable:4761)  
-
 #define LWIP_STK_SIZE      4096
 
 #define LWIP_TASK_MAX    5	//max number of lwip tasks
 #define LWIP_START_PRIO  -1   //first prio of lwip tasks
 
 typedef HANDLE sys_sem_t;
-typedef HANDLE sys_mbox_t;
+typedef struct queue *sys_mbox_t;
 typedef HANDLE sys_thread_t;
 
 #define SYS_MBOX_NULL   (sys_mbox_t)0

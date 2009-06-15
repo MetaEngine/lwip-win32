@@ -8,42 +8,38 @@
 #include "lwip/memp.h"
 #include "pcapif.h"
 
-void set_lwip();
-
 extern err_t ethernetif_init(struct netif *netif);
+
+void init()
+{
+  struct ip_addr ip, mask, gw;
+  static struct netif netif;
+
+  tcpip_init(NULL, NULL);
+
+  IP4_ADDR(&ip, 192, 168, 80, 161);
+  IP4_ADDR(&mask, 255, 255, 255, 0);
+  IP4_ADDR(&gw, 192, 168, 80, 201);
+
+  netif_add(&netif, &ip, &mask, &gw, NULL, ethernetif_init, tcpip_input);
+  netif_set_default(&netif);
+  netif_set_up(&netif);
+}
 
 int main(int argc, char* argv[])
 {
   // see SYS_ARCH_PROTECT
   InitializeCriticalSection(&gCriticalSection);
-  
+
   if (ERR_IF == open_dev())
     exit(1);
 
-  set_lwip();
+  init();
 
-  // start for ever
   while(TRUE)
     Sleep(1000);
   //close_dev();
-  
+
   return 0;
 }
 
-void set_lwip()
-{
-  struct ip_addr addr, netmask, gateway;
-  static struct netif e_netif;
-  
-	tcpip_init(NULL, NULL);
-  netif_init();
-  
-  IP4_ADDR(&addr, 192, 168, 80, 161);
-  IP4_ADDR(&netmask, 255, 255, 255, 0);
-  IP4_ADDR(&gateway, 192, 168, 80, 201);
-  
-  netif_add(&e_netif, &addr, &netmask, &gateway, 
-    NULL, ethernetif_init, tcpip_input);
-  netif_set_default(&e_netif);
-  netif_set_up(&e_netif);
-}
