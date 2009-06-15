@@ -27,11 +27,6 @@ void enqueue(queue_t* q, void* msg)
   SYS_ARCH_UNPROTECT(old_level);
 }
 
-int is_null(void* p)
-{
-  return p == NULL;
-}
-
 void* dequeue(queue_t* q, u32_t timeout)
 {
   void* msg;
@@ -39,7 +34,7 @@ void* dequeue(queue_t* q, u32_t timeout)
 
   if (q->head == NULL)
   {
-    if (0 == sys_arch_sem_wait(q->sem, timeout) || is_null(q->head))
+    if (0 == sys_arch_sem_wait(q->sem, timeout) || q->head == NULL)
       return NULL;
   }
 
