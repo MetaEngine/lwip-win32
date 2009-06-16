@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-err_t open_dev();
-err_t close_dev();
+err_t open_tap();
+err_t close_tap();
 err_t get_packet(unsigned int* len, char** pkt_data);
 err_t send_packet(char** buf, int len);
 

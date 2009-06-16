@@ -22,11 +22,7 @@ void sys_init(void)
 /*----------------------------------------------------------------------*/
 sys_sem_t sys_sem_new(u8_t count)
 {
-  sys_sem_t sem;
-  if (count == 0) 
-    sem = CreateSemaphore(NULL, 0, 1, NULL);
-  else
-    sem = CreateSemaphore(NULL, count, count, NULL);
+  sys_sem_t sem = CreateSemaphore(NULL, count, MAXLONG, NULL);
   
   if (sem == INVALID_HANDLE_VALUE) 
   {

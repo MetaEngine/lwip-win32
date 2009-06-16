@@ -15,7 +15,7 @@ void enqueue(queue_t* q, void* msg)
   if (q->head == NULL) 
   { 
     q->head = q->tail = node; 
-    // wake up thread wait on this semaphore
+    // wake up thread waiting on this semaphore
     sys_sem_signal(q->sem);
   } 
   else
@@ -46,9 +46,9 @@ void* dequeue(queue_t* q, u32_t timeout)
   q->head = node->next;
   q->len -= 1;
   // even if q->len is 0, we need not set q->tail to NULL
+  mem_free(node);
   SYS_ARCH_UNPROTECT(old_level);
   
-  mem_free(node);
   node = NULL;
   return msg;
 }

@@ -2,9 +2,9 @@
 
 #include "pcap.h"
 
-pcap_t *dev;
+pcap_t *tap;
 
-err_t open_dev()
+err_t open_tap()
 {
   pcap_if_t *alldevs;
   pcap_if_t *d;
@@ -49,10 +49,10 @@ err_t open_dev()
   for(d = alldevs, i = 0; i < inum-1 ;d = d->next, i++);
   
   /* Open the adapter */
-  if ((dev = pcap_open_live(d->name,
+  if ((tap = pcap_open_live(d->name,
     65536, // portion of the packet to capture. 
     1, // promiscuous mode (nonzero means promiscuous)
-    10, // read timeout
+    1, // read timeout
     errbuf // error buffer
     )) == NULL)
   {
@@ -69,10 +69,10 @@ err_t open_dev()
   return ERR_OK;
 }
 
-err_t close_dev()
+err_t close_tap()
 {
-  pcap_close(dev); 
-  dev = NULL;
+  pcap_close(tap); 
+  tap = NULL;
   return ERR_OK;
 }
 
@@ -80,7 +80,7 @@ err_t get_packet(unsigned int* len, char** pkt_data)
 {
   int res;
   struct pcap_pkthdr *header;
-  while((res = pcap_next_ex(dev, &header, pkt_data)) >= 0){
+  while((res = pcap_next_ex(tap, &header, pkt_data)) >= 0){
     
     if(res == 0)
       /* Timeout elapsed */
@@ -90,19 +90,19 @@ err_t get_packet(unsigned int* len, char** pkt_data)
     return ERR_OK;
   }
   
-	fprintf(stderr, "Error reading the packets: %s\n", pcap_geterr(dev));
+	fprintf(stderr, "Error reading the packets: %s\n", pcap_geterr(tap));
   exit(1);
   return ERR_IF;
 }
 
 err_t send_packet(char** buf, int len)
 {
-  	if (pcap_sendpacket(dev,	// Adapter
+  	if (pcap_sendpacket(tap,	// Adapter
 		*buf,				// buffer with the packet
 		len					// size
 		) != 0)
 	{
-		fprintf(stderr, "\nError sending the packet: \n", pcap_geterr(dev));
+		fprintf(stderr, "\nError sending the packet: \n", pcap_geterr(tap));
 		return ERR_IF;
 	}
     return ERR_OK;

@@ -6,7 +6,7 @@
 #include "lwip/tcpip.h"
 #include "lwip/mem.h"
 #include "lwip/memp.h"
-#include "pcapif.h"
+#include "net_tap.h"
 
 extern err_t ethernetif_init(struct netif *netif);
 
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
   // see SYS_ARCH_PROTECT
   InitializeCriticalSection(&gCriticalSection);
 
-  if (ERR_IF == open_dev())
+  if (ERR_IF == open_tap())
     exit(1);
 
   init();

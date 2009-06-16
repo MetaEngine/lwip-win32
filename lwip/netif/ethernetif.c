@@ -5,7 +5,7 @@
 #include "lwip/stats.h"
 #include "arch/sys_arch.h"
 #include "netif/etharp.h"
-#include "pcapif.h"
+#include "net_tap.h"
 
 #define IFNAME0 'e'
 #define IFNAME1 'n'
