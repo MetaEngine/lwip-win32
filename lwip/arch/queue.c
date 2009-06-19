@@ -23,7 +23,7 @@ void enqueue(queue_t* q, void* msg)
     q->tail->next = node;
     q->tail = node;
   }
-  q->len += 1;
+  q->enqueue += 1;
   SYS_ARCH_UNPROTECT(old_level);
 }
 
@@ -34,7 +34,7 @@ void* dequeue(queue_t* q, u32_t timeout)
 
   if (q->head == NULL)
   {
-    if (0 == sys_arch_sem_wait(q->sem, timeout) || q->head == NULL)
+    if (SYS_ARCH_TIMEOUT == sys_arch_sem_wait(q->sem, timeout) || q->head == NULL)
       return NULL;
   }
 
@@ -44,7 +44,7 @@ void* dequeue(queue_t* q, u32_t timeout)
   SYS_ARCH_DECL_PROTECT(old_level);
   SYS_ARCH_PROTECT(old_level);
   q->head = node->next;
-  q->len -= 1;
+  q->dequeue += 1;
   // even if q->len is 0, we need not set q->tail to NULL
   mem_free(node);
   SYS_ARCH_UNPROTECT(old_level);
@@ -58,7 +58,7 @@ queue_t* queue_create()
   queue_t* q;
   q = (queue_t *)mem_malloc(sizeof(queue_t));
   q->head = q->tail = NULL;
-  q->len = 0;
+  q->enqueue = q->dequeue = 0;
   q->sem = sys_sem_new(0);
   return q;
 }

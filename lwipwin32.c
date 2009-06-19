@@ -15,6 +15,9 @@ void init()
   struct ip_addr ip, mask, gw;
   static struct netif netif;
 
+  // see SYS_ARCH_PROTECT
+  InitializeCriticalSection(&gCriticalSection);
+
   tcpip_init(NULL, NULL);
 
   IP4_ADDR(&ip, 192, 168, 80, 161);
@@ -28,9 +31,6 @@ void init()
 
 int main(int argc, char* argv[])
 {
-  // see SYS_ARCH_PROTECT
-  InitializeCriticalSection(&gCriticalSection);
-
   if (ERR_IF == open_tap())
     exit(1);
 

@@ -13,8 +13,9 @@ typedef struct queue
 {
   struct queue_node* head;
   struct queue_node* tail;
-  u32_t len;
-  sys_sem_t sem;
+  u32_t enqueue;            // enqueue counter
+  u32_t dequeue;            // dequeue counter
+  sys_sem_t sem;            // semaphore for dequeue
 } queue_t;
 
 void enqueue(queue_t* q, void* msg);

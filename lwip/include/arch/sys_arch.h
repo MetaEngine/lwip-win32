@@ -16,11 +16,11 @@ typedef HANDLE sys_thread_t;
 #define SYS_MBOX_NULL   (sys_mbox_t)0
 #define SYS_SEM_NULL    (sys_sem_t)0
 
-/* Critical Region Protection */
+/* Global Critical Region Protection */
 CRITICAL_SECTION gCriticalSection;
 
-#define SYS_ARCH_DECL_PROTECT(lev)
-#define SYS_ARCH_PROTECT(lev) EnterCriticalSection(&gCriticalSection)
-#define SYS_ARCH_UNPROTECT(lev) LeaveCriticalSection(&gCriticalSection)
+#define SYS_ARCH_DECL_PROTECT(x)
+#define SYS_ARCH_PROTECT(x) EnterCriticalSection(&gCriticalSection)
+#define SYS_ARCH_UNPROTECT(x) LeaveCriticalSection(&gCriticalSection)
 
 #endif

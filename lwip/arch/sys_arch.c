@@ -55,11 +55,11 @@ u32_t sys_arch_sem_wait(sys_sem_t sem, u32_t timeout)
   switch (dwWaitResult) 
   {
   case WAIT_OBJECT_0: 
-    return 1;
+    return ERR_OK;
   case WAIT_ABANDONED:
   case WAIT_TIMEOUT: 
   default:
-    return 0;
+    return SYS_ARCH_TIMEOUT;
   }
 }
 
