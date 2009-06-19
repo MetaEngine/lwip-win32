@@ -38,7 +38,8 @@ int main(int argc, char* argv[])
 
   while(TRUE)
     Sleep(1000);
-  //close_dev();
+
+  // Todo close_dev();
 
   return 0;
 }
