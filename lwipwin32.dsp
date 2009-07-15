@@ -275,6 +275,10 @@ SOURCE=.\lwip\netif\loopif.c
 
 SOURCE=.\lwip\arch\sys_arch.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\lwip\arch\queue.c
+# End Source File
 # End Group
 # End Group
 # Begin Group "pcap"
@@ -282,7 +286,7 @@ SOURCE=.\lwip\arch\sys_arch.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\pcap\pcapif.c
+SOURCE=.\pcap\net_tap.c
 # End Source File
 # End Group
 # Begin Source File
