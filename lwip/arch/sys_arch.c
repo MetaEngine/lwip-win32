@@ -51,7 +51,7 @@ void sys_sem_signal(sys_sem_t sem)
 /*----------------------------------------------------------------------*/
 u32_t sys_arch_sem_wait(sys_sem_t sem, u32_t timeout)
 {
-  DWORD dwWaitResult = WaitForSingleObject(sem, timeout);
+  DWORD dwWaitResult = WaitForSingleObject(sem, (timeout != 0) ? timeout : INFINITE);
   switch (dwWaitResult) 
   {
   case WAIT_OBJECT_0: 
