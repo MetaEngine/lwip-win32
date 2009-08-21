@@ -9,6 +9,8 @@
 #include "net_tap.h"
 
 extern err_t ethernetif_init(struct netif *netif);
+extern void http_init();
+extern void http_task();
 
 void init()
 {
@@ -19,6 +21,10 @@ void init()
   InitializeCriticalSection(&gCriticalSection);
 
   tcpip_init(NULL, NULL);
+
+  // simple server
+  sys_thread_new("http thread", http_task, NULL, 0, 0);
+  //http_init();
 
   IP4_ADDR(&ip, 192, 168, 80, 161);
   IP4_ADDR(&mask, 255, 255, 255, 0);
