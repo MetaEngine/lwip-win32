@@ -84,14 +84,14 @@ void sys_mbox_post(sys_mbox_t mbox, void *msg)
 
 err_t sys_mbox_trypost(sys_mbox_t mbox, void *msg) 
 {
-  enqueue(mbox, msg);
+  queue_push(mbox, msg);
   return ERR_OK;
 }
 
 /*----------------------------------------------------------------------*/
 u32_t sys_arch_mbox_fetch(sys_mbox_t mbox, void **msg, u32_t timeout)
 {
-  *msg = dequeue(mbox, timeout);
+  *msg = queue_pop(mbox, timeout);
   if (*msg == NULL)
     return SYS_ARCH_TIMEOUT;
   return 0;
@@ -122,11 +122,11 @@ struct sys_timeouts * sys_arch_timeouts(void)
 sys_thread_t sys_thread_new(char *name, void (* thread)(void *arg), void *arg, int stacksize, int prio)
 {
   sys_thread_t t = (sys_thread_t)_beginthreadex( 
-    NULL,                            // default security attributes
-    stacksize,                       // use default stack size  
+    NULL,                            // security attributes
+    stacksize,                       // stack size  
     (LPTHREAD_START_ROUTINE)thread,  // thread function name
     arg,                             // argument to thread function 
-    0,                               // use default creation flags 
+    0,                               // creation flags 
     NULL);                           // returns the thread identifier 
   
   if (t == NULL) 

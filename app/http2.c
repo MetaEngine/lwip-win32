@@ -1,4 +1,5 @@
 #include "lwip/api.h"
+#include "lwip/memp.h"
 
 const static char indexdata[] =
 "<html> \
@@ -27,6 +28,7 @@ static void process_connection(struct netconn *conn)
                 NETCONN_NOCOPY);
         netconn_close(conn);
     }
+    memp_free(MEMP_NETBUF, inbuf);
 }
 
 void http_task()

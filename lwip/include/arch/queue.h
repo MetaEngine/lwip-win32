@@ -18,8 +18,8 @@ typedef struct queue
   sys_sem_t sem;            // semaphore for dequeue
 } queue_t;
 
-void enqueue(queue_t* q, void* msg);
-void* dequeue(queue_t* q, u32_t timeout);
+void queue_push(queue_t* q, void* msg);
+void* queue_pop(queue_t* q, u32_t timeout);
 queue_t* queue_create();
 void queue_free(queue_t* q);
 
